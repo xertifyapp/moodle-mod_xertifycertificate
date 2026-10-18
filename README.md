@@ -7,7 +7,7 @@ has no remote and is not a published release.
 Requires Moodle 4.1 (`2022112800`) and `local_xertify >= 2026101800`
 (`1.1.0-dev`). The public `local_xertify` 1.0.3 (`2026091500`) does not provide the
 shared service contract and is rejected by Moodle's dependency validation.
-The module development version is `2026101800`, release `0.1.0-dev` (alpha).
+The module development version is `2026101801`, release `0.2.0-dev` (alpha).
 
 ## Teacher workflow
 
@@ -62,9 +62,28 @@ configuration; no special emission path is introduced here.
 
 ## Backup and compatibility limits
 
-`FEATURE_BACKUP_MOODLE2` is explicitly false. Activity backup, restore and core
-activity duplication are not supported until Phase 4; manually creating a
-second activity is supported and does not issue a second certificate.
+Backup, restore and core activity/course duplication are supported. The module
+backs up only its name, intro, format, timestamps and intro files. Core manages
+section/order, visibility, module settings, restrictions, completion configuration
+and any user completion selected by the general backup options. The module has
+no student-data backup structure. Authored intro content is copied normally.
+
+Duplicating an activity keeps the same course/current-user certificate; deleting
+the copy does not delete that certificate. Restoring or duplicating a course does
+not copy certificates, issues, PDF payloads or tokens. Certificate data remains in
+`local_xertify`. Its Phase 2 policy restores new course configuration disabled
+with an empty token override, and preserves an existing destination configuration.
+Review the destination course's Xertify settings before enabling integration.
+
+In Moodle 4.5, a restored prerequisite is remapped to its new cmid. A same-course
+activity duplicate retains its existing prerequisite. If the prerequisite is
+omitted when restoring to another course, core changes the condition to `cm: 0`
+and leaves the viewer inaccessible to students; review that restriction after
+restore. This module does not replace core's dependency policy.
+
+The backup encoder/decoder remaps authored links to the existing index, view and
+PDF routes. Intro files are restored into the new module context. No emission
+code, API client or local certificate data is used by these backup tasks.
 
 The implementation uses Moodle 4.1 APIs and PHP 7.4-compatible syntax. Runtime
 validation is Moodle 4.5.11+, PHP 8.3.23, MariaDB 10.11.13. A full Moodle 4.1–5.2
@@ -79,7 +98,7 @@ Install both development plugins in an isolated Moodle PHPUnit environment:
 ```sh
 php -d max_input_vars=5000 admin/tool/phpunit/cli/init.php
 php -d max_input_vars=5000 vendor/bin/phpunit --testsuite local_xertify_testsuite
-php -d max_input_vars=5000 vendor/bin/phpunit mod/xertifycertificate/tests/activity_test.php
+php -d max_input_vars=5000 vendor/bin/phpunit --testsuite mod_xertifycertificate_testsuite
 ```
 
 The module suite uses real course modules, users, capabilities, prerequisite
@@ -87,3 +106,10 @@ completion restrictions and controllers. Remote transport is mocked; an HTTP
 sentinel detects accidental requests. Never run these fixtures against a real
 Moodle database. See the Phase 3 report for separate synthetic HTTP controller
 checks and the completed visual evidence.
+
+Backup regression tests use final `.mbz` archives and real `backup_controller`,
+`restore_controller`, `duplicate_module` and course duplication APIs. They scan
+all extracted files for synthetic secret/certificate markers in both user-data
+modes. Event, HTTP and issue-write guards plus a direct-dependency check protect
+against issuance. Set `XERTIFY_PHASE4_EVIDENCE_DIR` to an existing external test
+directory to export optional synthetic assertion summaries.

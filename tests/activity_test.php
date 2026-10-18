@@ -209,7 +209,7 @@ final class activity_test extends \advanced_testcase {
             ['id', 'course', 'name', 'intro', 'introformat', 'timecreated', 'timemodified'],
             array_keys($DB->get_columns('xertifycertificate'))
         );
-        $this->assertFalse(xertifycertificate_supports(FEATURE_BACKUP_MOODLE2));
+        $this->assertTrue(xertifycertificate_supports(FEATURE_BACKUP_MOODLE2));
         $this->assertTrue(xertifycertificate_supports(FEATURE_COMPLETION_TRACKS_VIEWS));
         $this->assertSame(MOD_ARCHETYPE_RESOURCE, xertifycertificate_supports(FEATURE_MOD_ARCHETYPE));
     }

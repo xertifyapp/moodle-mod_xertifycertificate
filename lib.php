@@ -30,6 +30,7 @@
  */
 function xertifycertificate_supports($feature) {
     switch ($feature) {
+        case FEATURE_BACKUP_MOODLE2:
         case FEATURE_MOD_INTRO:
         case FEATURE_SHOW_DESCRIPTION:
         case FEATURE_COMPLETION_TRACKS_VIEWS:
@@ -38,7 +39,6 @@ function xertifycertificate_supports($feature) {
             return MOD_ARCHETYPE_RESOURCE;
         case FEATURE_MOD_PURPOSE:
             return MOD_PURPOSE_CONTENT;
-        case FEATURE_BACKUP_MOODLE2:
         case FEATURE_GROUPS:
         case FEATURE_GROUPINGS:
         case FEATURE_GRADE_HAS_GRADE:
