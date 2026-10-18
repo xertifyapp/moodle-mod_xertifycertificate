@@ -69,8 +69,8 @@ second activity is supported and does not issue a second certificate.
 The implementation uses Moodle 4.1 APIs and PHP 7.4-compatible syntax. Runtime
 validation is Moodle 4.5.11+, PHP 8.3.23, MariaDB 10.11.13. A full Moodle 4.1–5.2
 version matrix is still required. No custom JS or CSS is used. Web responsive
-visual QA remains pending where browser access to the disposable site is
-blocked. Native Moodle App integration is out of scope.
+visual QA was verified in Chrome/Boost at desktop size and a 390 x 844 viewport
+using a disposable synthetic site. Native Moodle App integration is out of scope.
 
 ## Tests
 
@@ -86,4 +86,4 @@ The module suite uses real course modules, users, capabilities, prerequisite
 completion restrictions and controllers. Remote transport is mocked; an HTTP
 sentinel detects accidental requests. Never run these fixtures against a real
 Moodle database. See the Phase 3 report for separate synthetic HTTP controller
-checks and the outstanding visual evidence.
+checks and the completed visual evidence.

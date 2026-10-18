@@ -45,9 +45,6 @@ $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($instance->name));
-if (trim($instance->intro ?? '') !== '') {
-    echo $OUTPUT->box(format_module_intro('xertifycertificate', $instance, $cm->id), 'generalbox mod_introbox');
-}
+// Core's activity header already renders the name, intro and completion information.
 echo \mod_xertifycertificate\output\certificate::render($certificate, $cm->id, $course, $context);
 echo $OUTPUT->footer();
