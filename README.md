@@ -1,13 +1,46 @@
-# Xertify Certificate activity — development preview
+# Xertify Certificate activity 1.0.0
 
-`mod_xertifycertificate` is a course certificate viewer. Install this directory as
-`mod/xertifycertificate`, independently of `local/xertify`. This local repository
-has no remote and is not a published release.
+`mod_xertifycertificate` is a separate course certificate viewer and this is its
+first stable release candidate. It requires Moodle 4.1–5.2 and **Xertify
+Certificates (`local_xertify`) 1.1.0**, build `2026101802` or later.
+The module build is `2026101802`. Local 1.0.3 is rejected by Moodle's dependency
+validation. The local plugin must be installed or upgraded first.
 
-Requires Moodle 4.1 (`2022112800`) and `local_xertify >= 2026101800`
-(`1.1.0-dev`). The public `local_xertify` 1.0.3 (`2026091500`) does not provide the
-shared service contract and is rejected by Moodle's dependency validation.
-The module development version is `2026101801`, release `0.2.0-dev` (alpha).
+## Installation and optional activity
+
+1. Install or update **Xertify Certificates (`local_xertify`) 1.1.0** first.
+   Upload `local_xertify_1.1.0.zip` in **Site administration > Plugins > Install plugins**
+   and complete Moodle's upgrade. For manual installation, extract `xertify/`
+   into `local/` before Moodle 5.1 or `public/local/` in Moodle 5.1 and later.
+2. To provide a certificate activity, install the separate
+   **`mod_xertifycertificate` 1.0.0** package next. Upload
+   `mod_xertifycertificate_1.0.0.zip`, or extract `xertifycertificate/` into
+   `mod/` before Moodle 5.1 or `public/mod/` in Moodle 5.1 and later,
+   then complete the upgrade.
+3. Configure the Xertify integration globally and in each intended course.
+4. Turn course editing on and select **Add an activity or resource >
+   Xertify Certificate / Certificado Xertify**.
+5. Optionally put it in a **Certificación** section, then set its name,
+   description, standard access restrictions and optional view completion.
+
+Token, Template ID, Group ID and issuance settings belong only to the local
+plugin. The activity package is installed separately and contains no duplicate
+integration settings. Existing courses do not gain activities automatically.
+
+## Upgrading from local_xertify 1.0.3
+
+**Do not uninstall the existing local plugin. Upgrade it in place.**
+
+1. Back up Moodle files, moodledata and the database according to the site's
+   administration policy.
+2. Replace/update `local_xertify` 1.0.3 with 1.1.0 and complete Moodle's upgrade.
+3. Verify the existing course integration and certificate associations.
+4. Install `mod_xertifycertificate` 1.0.0 after the local upgrade succeeds.
+5. Add the activity to each course where teachers want it available.
+
+The module requires local plugin build `2026101802` or later; local 1.0.3 is
+insufficient. This upgrade preserves stored configuration and certificate
+associations; it does not reissue certificates or create course activities.
 
 ## Teacher workflow
 
@@ -27,7 +60,7 @@ Its own table contains only `id, course, name, intro, introformat, timecreated,
 timemodified`. Core owns activity completion and logs; the privacy provider is a
 `null_provider` for this activity's own student data. Teacher-authored activity
 content is course configuration. Certificate data remains the local plugin's
-responsibility; its pending privacy work is not addressed here.
+responsibility and is covered by that plugin's complete Privacy API provider.
 
 ## Access policy and multiple activities
 
@@ -71,11 +104,11 @@ no student-data backup structure. Authored intro content is copied normally.
 Duplicating an activity keeps the same course/current-user certificate; deleting
 the copy does not delete that certificate. Restoring or duplicating a course does
 not copy certificates, issues, PDF payloads or tokens. Certificate data remains in
-`local_xertify`. Its Phase 2 policy restores new course configuration disabled
+`local_xertify`. Its safe restore policy restores new course configuration disabled
 with an empty token override, and preserves an existing destination configuration.
 Review the destination course's Xertify settings before enabling integration.
 
-In Moodle 4.5, a restored prerequisite is remapped to its new cmid. A same-course
+In the tested Moodle 4.1–5.2 patches, a restored prerequisite is remapped to its new cmid. A same-course
 activity duplicate retains its existing prerequisite. If the prerequisite is
 omitted when restoring to another course, core changes the condition to `cm: 0`
 and leaves the viewer inaccessible to students; review that restriction after
@@ -85,15 +118,15 @@ The backup encoder/decoder remaps authored links to the existing index, view and
 PDF routes. Intro files are restored into the new module context. No emission
 code, API client or local certificate data is used by these backup tasks.
 
-The implementation uses Moodle 4.1 APIs and PHP 7.4-compatible syntax. Runtime
-validation is Moodle 4.5.11+, PHP 8.3.23, MariaDB 10.11.13. A full Moodle 4.1–5.2
-version matrix is still required. No custom JS or CSS is used. Web responsive
-visual QA was verified in Chrome/Boost at desktop size and a 390 x 844 viewport
-using a disposable synthetic site. Native Moodle App integration is out of scope.
+Compatibility is validated on Moodle 4.1–5.2 with a supported PHP combination
+for each family. Static PHPCompatibility also checks syntax across PHP 7.4–8.4;
+use the PHP runtime required by the installed Moodle version. No custom JS or
+CSS is used. Responsive web QA covers desktop and mobile-size layouts; dedicated
+native Moodle App integration is outside the initial release's scope.
 
 ## Tests
 
-Install both development plugins in an isolated Moodle PHPUnit environment:
+Install both plugins in an isolated Moodle PHPUnit environment:
 
 ```sh
 php -d max_input_vars=5000 admin/tool/phpunit/cli/init.php
@@ -104,8 +137,7 @@ php -d max_input_vars=5000 vendor/bin/phpunit --testsuite mod_xertifycertificate
 The module suite uses real course modules, users, capabilities, prerequisite
 completion restrictions and controllers. Remote transport is mocked; an HTTP
 sentinel detects accidental requests. Never run these fixtures against a real
-Moodle database. See the Phase 3 report for separate synthetic HTTP controller
-checks and the completed visual evidence.
+Moodle database. Functional HTTP smoke checks complement these suites.
 
 Backup regression tests use final `.mbz` archives and real `backup_controller`,
 `restore_controller`, `duplicate_module` and course duplication APIs. They scan
@@ -113,3 +145,6 @@ all extracted files for synthetic secret/certificate markers in both user-data
 modes. Event, HTTP and issue-write guards plus a direct-dependency check protect
 against issuance. Set `XERTIFY_PHASE4_EVIDENCE_DIR` to an existing external test
 directory to export optional synthetic assertion summaries.
+
+On Moodle 5.1 and later, the PHPUnit initialization script is under
+`public/admin/tool/phpunit/cli/init.php`; invoke PHPUnit from the Moodle root.

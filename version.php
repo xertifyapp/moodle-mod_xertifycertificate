@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Development version and shared service dependency.
+ * Release version and shared service dependency.
  *
  * @package    mod_xertifycertificate
  * @copyright  2026 Xertify
@@ -25,8 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_xertifycertificate';
-$plugin->version = 2026101801;
+$plugin->version = 2026101802;
 $plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.2.0-dev';
-$plugin->dependencies = ['local_xertify' => 2026101800];
+$plugin->supported = [401, 502];
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '1.0.0';
+$plugin->dependencies = ['local_xertify' => 2026101802];
