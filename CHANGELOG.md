@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 - 2026-10-21 (release candidate)
+
+- Meets Moodle Marketplace packaging policy by distributing English strings only.
+- Spanish translation source has been preserved for migration to Moodle AMOS; it is not published to AMOS in this release.
+- Requires Xertify Certificates (`local_xertify`) 1.1.1, build `2026102100` or later.
+- No production functional changes; language distribution and release metadata only.
+
 ## 1.0.0 - 2026-10-18 (release candidate)
 
 - First stable candidate for the separate Xertify Certificate activity.

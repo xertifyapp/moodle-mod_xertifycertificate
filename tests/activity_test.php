@@ -187,21 +187,23 @@ final class activity_test extends \advanced_testcase {
     }
 
     /**
-     * Core dependency validation rejects the old public local plugin version.
+     * Core dependency validation rejects both earlier local plugin releases.
      */
     public function test_dependency_and_schema(): void {
         global $DB;
         $plugin = \core_plugin_manager::instance()->get_plugin_info('mod_xertifycertificate');
         $dependencies = $plugin->get_other_required_plugins();
-        $this->assertSame(2026101802, $dependencies['local_xertify']);
-        $this->assertGreaterThan(2026091500, $dependencies['local_xertify']);
+        $this->assertSame(2026102100, $dependencies['local_xertify']);
+        $this->assertGreaterThan(2026101802, $dependencies['local_xertify']);
         $manager = \core_plugin_manager::instance();
         $this->assertTrue($manager->are_dependencies_satisfied($dependencies));
         $local = $manager->get_plugin_info('local_xertify');
         $original = $local->versiondisk;
         try {
-            $local->versiondisk = 2026091500;
-            $this->assertFalse($manager->are_dependencies_satisfied($dependencies));
+            foreach ([2026091500, 2026101802] as $oldversion) {
+                $local->versiondisk = $oldversion;
+                $this->assertFalse($manager->are_dependencies_satisfied($dependencies));
+            }
         } finally {
             $local->versiondisk = $original;
         }

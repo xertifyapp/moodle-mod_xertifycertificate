@@ -1,26 +1,26 @@
-# Xertify Certificate activity 1.0.0
+# Xertify Certificate activity 1.0.1
 
 `mod_xertifycertificate` is a separate course certificate viewer and this is its
-first stable release candidate. It requires Moodle 4.1–5.2 and **Xertify
-Certificates (`local_xertify`) 1.1.0**, build `2026101802` or later.
-The module build is `2026101802`. Local 1.0.3 is rejected by Moodle's dependency
+Marketplace compliance release candidate. It requires Moodle 4.1–5.2 and **Xertify
+Certificates (`local_xertify`) 1.1.1**, build `2026102100` or later.
+The module build is `2026102100`. Local 1.0.3 and 1.1.0 are rejected by Moodle's dependency
 validation. The local plugin must be installed or upgraded first.
 
 ## Installation and optional activity
 
-1. Install or update **Xertify Certificates (`local_xertify`) 1.1.0** first.
-   Upload `local_xertify_1.1.0.zip` in **Site administration > Plugins > Install plugins**
+1. Install or update **Xertify Certificates (`local_xertify`) 1.1.1** first.
+   Upload `local_xertify_1.1.1.zip` in **Site administration > Plugins > Install plugins**
    and complete Moodle's upgrade. For manual installation, extract `xertify/`
    into `local/` before Moodle 5.1 or `public/local/` in Moodle 5.1 and later.
 2. To provide a certificate activity, install the separate
-   **`mod_xertifycertificate` 1.0.0** package next. Upload
-   `mod_xertifycertificate_1.0.0.zip`, or extract `xertifycertificate/` into
+   **`mod_xertifycertificate` 1.0.1** package next. Upload
+   `mod_xertifycertificate_1.0.1.zip`, or extract `xertifycertificate/` into
    `mod/` before Moodle 5.1 or `public/mod/` in Moodle 5.1 and later,
    then complete the upgrade.
 3. Configure the Xertify integration globally and in each intended course.
 4. Turn course editing on and select **Add an activity or resource >
-   Xertify Certificate / Certificado Xertify**.
-5. Optionally put it in a **Certificación** section, then set its name,
+   Xertify Certificate**.
+5. Optionally put it in a **Certification** section, then set its name,
    description, standard access restrictions and optional view completion.
 
 Token, Template ID, Group ID and issuance settings belong only to the local
@@ -33,18 +33,18 @@ integration settings. Existing courses do not gain activities automatically.
 
 1. Back up Moodle files, moodledata and the database according to the site's
    administration policy.
-2. Replace/update `local_xertify` 1.0.3 with 1.1.0 and complete Moodle's upgrade.
+2. Replace/update `local_xertify` 1.0.3 with 1.1.1 and complete Moodle's upgrade.
 3. Verify the existing course integration and certificate associations.
-4. Install `mod_xertifycertificate` 1.0.0 after the local upgrade succeeds.
+4. Install `mod_xertifycertificate` 1.0.1 after the local upgrade succeeds.
 5. Add the activity to each course where teachers want it available.
 
-The module requires local plugin build `2026101802` or later; local 1.0.3 is
+The module requires local plugin build `2026102100` or later; local 1.0.3 and 1.1.0 are
 insufficient. This upgrade preserves stored configuration and certificate
 associations; it does not reissue certificates or create course activities.
 
 ## Teacher workflow
 
-Enable editing, add **Xertify Certificate / Certificado Xertify** to a section,
+Enable editing, add **Xertify Certificate** to a section,
 and choose its name and description. Configure availability and optional view
 completion using Moodle's standard form. API tokens, templates, groups and
 issuance settings remain in Xertify Certificates (`local_xertify`).
@@ -86,7 +86,7 @@ Wallet URL is outside Moodle's access control.
 View completion means **activity viewed**, not issued, downloaded or verified.
 Leave it optional. Do not make this activity a course completion criterion when
 its availability depends on that course's completion: it can create a circular
-dependency. The form includes this warning in English and Spanish.
+dependency. The form includes this warning in English, with Moodle language fallback when no plugin translation is installed.
 
 The activity never directly emits. If administrators include it in course
 completion criteria, normal core completion can eventually produce
@@ -148,3 +148,12 @@ directory to export optional synthetic assertion summaries.
 
 On Moodle 5.1 and later, the PHPUnit initialization script is under
 `public/admin/tool/phpunit/cli/init.php`; invoke PHPUnit from the Moodle root.
+
+## Language distribution
+
+This release distributes English strings only for Moodle Marketplace compliance.
+Spanish translation source has been preserved for migration to Moodle AMOS.
+It has not been published to AMOS as part of this release. When a plugin-specific
+translation is not installed, Moodle falls back to the bundled English strings.
+Certificate issuance, authorization, PDF, backup/restore and Privacy behavior are
+unchanged by this packaging update.

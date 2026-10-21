@@ -25,9 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_xertifycertificate';
-$plugin->version = 2026101802;
+$plugin->version = 2026102100;
 $plugin->requires = 2022112800;
 $plugin->supported = [401, 502];
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0.0';
-$plugin->dependencies = ['local_xertify' => 2026101802];
+$plugin->release = '1.0.1';
+$plugin->dependencies = ['local_xertify' => 2026102100];
