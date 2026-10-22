@@ -1,9 +1,9 @@
-# Xertify Certificate activity 1.0.1
+# Xertify Certificate activity 1.0.2
 
 `mod_xertifycertificate` is a separate course certificate viewer and this is its
 Marketplace compliance release candidate. It requires Moodle 4.1–5.2 and **Xertify
 Certificates (`local_xertify`) 1.1.1**, build `2026102100` or later.
-The module build is `2026102100`. Local 1.0.3 and 1.1.0 are rejected by Moodle's dependency
+The module build is `2026102200`. Local 1.0.3 and 1.1.0 are rejected by Moodle's dependency
 validation. The local plugin must be installed or upgraded first.
 
 ## Installation and optional activity
@@ -13,8 +13,8 @@ validation. The local plugin must be installed or upgraded first.
    and complete Moodle's upgrade. For manual installation, extract `xertify/`
    into `local/` before Moodle 5.1 or `public/local/` in Moodle 5.1 and later.
 2. To provide a certificate activity, install the separate
-   **`mod_xertifycertificate` 1.0.1** package next. Upload
-   `mod_xertifycertificate_1.0.1.zip`, or extract `xertifycertificate/` into
+   **`mod_xertifycertificate` 1.0.2** package next. Upload
+   `mod_xertifycertificate_1.0.2.zip`, or extract `xertifycertificate/` into
    `mod/` before Moodle 5.1 or `public/mod/` in Moodle 5.1 and later,
    then complete the upgrade.
 3. Configure the Xertify integration globally and in each intended course.
@@ -35,7 +35,7 @@ integration settings. Existing courses do not gain activities automatically.
    administration policy.
 2. Replace/update `local_xertify` 1.0.3 with 1.1.1 and complete Moodle's upgrade.
 3. Verify the existing course integration and certificate associations.
-4. Install `mod_xertifycertificate` 1.0.1 after the local upgrade succeeds.
+4. Install `mod_xertifycertificate` 1.0.2 after the local upgrade succeeds.
 5. Add the activity to each course where teachers want it available.
 
 The module requires local plugin build `2026102100` or later; local 1.0.3 and 1.1.0 are

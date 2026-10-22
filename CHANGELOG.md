@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 - 2026-10-22
+
+- Adds the standard Moodle db/upgrade.php entry point required by Marketplace package validation.
+- No database migration or functional behavior change.
+
 ## 1.0.1 - 2026-10-21 (release candidate)
 
 - Meets Moodle Marketplace packaging policy by distributing English strings only.
